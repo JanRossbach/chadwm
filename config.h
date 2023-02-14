@@ -73,6 +73,10 @@ static char *tags[] = {"", "", "", "", "", "", "", "", "
 // "Video", "Image", "Files" }; static char *tags[] = {"一", "二", "三", "四",
 // "五", "六", "七", "八", "九"};
 
+
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
+
 static const char* telegram[] = { "telegram-desktop", "open" , "telegram-desktop", NULL };
 static const char* mattermost[] = { "mattermost-desktop", NULL };
 static const char* rocketchat[] = { "rocketchat-desktop", NULL };
@@ -171,7 +175,7 @@ static Key keys[] = {
     { MODKEY,                           XK_x,       spawn,            SHCMD("logoutmenu")},
     { MODKEY|ShiftMask,                 XK_d,       spawn,            SHCMD("dmenu_run")},
     { MODKEY|ShiftMask,                 XK_p,       spawn,            SHCMD("passmenu")},
-    /* { MODKEY|ShiftMask,                 XK_Return,  togglescratch,    {.v = scratchpadcmd }}, */
+    { MODKEY|ShiftMask,                 XK_Return,  togglescratch,    {.v = scratchpadcmd }},
 
     // toggle stuff
     { MODKEY,                           XK_b,       togglebar,      {0} },
