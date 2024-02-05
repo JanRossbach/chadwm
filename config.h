@@ -3,7 +3,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int default_border = 0;   /* to switch back to default border after dynamic border resizing via keybinds */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 5;       /* horiz inner gap between windows */
@@ -14,7 +14,7 @@ static const int smartgaps          = 0;        /* 1 means no outer gap when the
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 3;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails,display systray on the 1st monitor,False: display systray on last monitor*/
-static const int showsystray        = 0;        /* 0 means no systray */
+static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int showtab            = showtab_auto;
 static const int toptab             = 1;        /* 0 means bottom tab */
@@ -31,15 +31,10 @@ static const int colorfultag        = 1;        /* 0 means use SchemeSel for sel
 #define ICONSIZE 19   /* icon size */
 #define ICONSPACING 8 /* space between icon and title */
 
-static const char *fonts[]          = {"JetBrainsMono Nerd Font:style:medium:size=14",
+static const char *fonts[]          = {"JetBrainsMono NF:style:medium:size=14",
                                         "Material Design Icons Desktop:size=14" };
 
-// theme
 #include "themes/onedark.h"
-//#include "themes/catppuccin.h"
-//#include "themes/nord.h"
-//#include "themes/gruvchad.h"
-//#include "themes/dracula.h"
 
 static const char *colors[][3]      = {
     /*                     fg       bg      border */
@@ -64,15 +59,7 @@ static const char *colors[][3]      = {
     [SchemeBtnClose]   = { red,     black,  black },
 };
 
-/* tagging */
-static char *tags[] = {"", "", "", "", "", "", "", "", ""};
-// static char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-// static char *tags[] = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII",
-// "IX" }; static char *tags[] = { "", "", "", "", "", "", "", "", ""
-// }; static char *tags[] = { "Web", "Chat", "Edit", "Meld", "Vb", "Mail",
-// "Video", "Image", "Files" }; static char *tags[] = {"一", "二", "三", "四",
-// "五", "六", "七", "八", "九"};
-
+static char *tags[] = {"", "", "", "", "", "", "", "", ""};
 
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
@@ -82,20 +69,24 @@ static const char* mattermost[] = { "mattermost-desktop", NULL };
 static const char* rocketchat[] = { "rocketchat-desktop", NULL };
 static const char* pavucontrol[] = { "pavucontrol", NULL };
 static const char* browser[] = { "firefox", NULL };
-static const char* email[] = { "thunderbird", NULL };
 static const char* spotify[] = { "spotify", NULL };
 static const char* emacs[] = { "emacs", NULL };
+static const char* obsidian[] = { "obsidian", NULL };
+static const char* bitwarden[] = { "bitwarden-desktop", NULL };
+static const char* tradingview[] = { "tradingview", NULL };
 
 static const Launcher launchers[] = {
     /* command     name to display */
+    { obsidian,     "" },
+    { emacs,        "" },
+    { browser,      "" },
+    { tradingview,  "" },
     { mattermost,   "" },
     { rocketchat,   "" },
     { telegram,     "" },
-    { emacs,        "" },
-    { email,        "" },
-    { browser,      "" },
     { spotify,      "" },
-    { pavucontrol,  "墳" },
+    { bitwarden,    "" },
+    { pavucontrol,  "" },
 };
 
 static const int tagschemes[] = {
@@ -130,17 +121,17 @@ static const Layout layouts[] = {
     /* symbol     arrange function */
     { "[]=",      tile },    /* first entry is default */
     { "[M]",      monocle },
-    { "[@]",      spiral },
-    { "[\\]",     dwindle },
-    { "H[]",      deck },
-    { "TTT",      bstack },
-    { "===",      bstackhoriz },
-    { "HHH",      grid },
-    { "###",      nrowgrid },
-    { "---",      horizgrid },
-    { ":::",      gaplessgrid },
-    { "|M|",      centeredmaster },
-    { ">M>",      centeredfloatingmaster },
+    /* { "[@]",      spiral }, */
+    /* { "[\\]",     dwindle }, */
+    /* { "H[]",      deck }, */
+    /* { "TTT",      bstack }, */
+    /* { "===",      bstackhoriz }, */
+    /* { "HHH",      grid }, */
+    /* { "###",      nrowgrid }, */
+    /* { "---",      horizgrid }, */
+    /* { ":::",      gaplessgrid }, */
+    /* { "|M|",      centeredmaster }, */
+    /* { ">M>",      centeredfloatingmaster }, */
     { "><>",      NULL },    /* no layout function means floating behavior */
     { NULL,       NULL },
 };
@@ -169,12 +160,14 @@ static Key keys[] = {
 
     { MODKEY,                           XK_Return,  spawn,            SHCMD("st")},
     { MODKEY,                           XK_w,       spawn,            SHCMD("firefox")},
+    { MODKEY,                           XK_t,       spawn,            SHCMD("thunar")},
     { MODKEY,                           XK_n,       spawn,            SHCMD("emacsclient -c")},
     { MODKEY|ShiftMask,                 XK_n,       spawn,            SHCMD("emacs")},
     { MODKEY,                           XK_p,       spawn,            SHCMD("bookmarkmenu")},
     { MODKEY,                           XK_x,       spawn,            SHCMD("logoutmenu")},
     { MODKEY|ShiftMask,                 XK_d,       spawn,            SHCMD("dmenu_run")},
     { MODKEY|ShiftMask,                 XK_p,       spawn,            SHCMD("passmenu")},
+    { MODKEY|ShiftMask,                 XK_s,       spawn,            SHCMD("sleep 0.2; scrot -s ~/screenshots/%Y-%m-%d-screenshot.png")},
     { MODKEY|ShiftMask,                 XK_Return,  togglescratch,    {.v = scratchpadcmd }},
 
     // toggle stuff
@@ -197,9 +190,9 @@ static Key keys[] = {
     { MODKEY|ShiftMask,                 XK_o,       setcfact,       {.f =  0.00} },
 
 
-    { MODKEY|ShiftMask,                 XK_j,       movestack,      {.i = +1 } },
     { MODKEY|ShiftMask,                 XK_k,       movestack,      {.i = -1 } },
-    { MODKEY|ShiftMask,                 XK_Return,  zoom,           {0} },
+    { MODKEY|ShiftMask,                 XK_j,       movestack,      {.i = +1 } },
+    /* { MODKEY|ShiftMask,                 XK_Return,  zoom,           {0} }, */
     { MODKEY,                           XK_Tab,     view,           {0} },
 
     // overall gaps
@@ -227,7 +220,7 @@ static Key keys[] = {
     { MODKEY|ControlMask|ShiftMask,     XK_d,       defaultgaps,    {0} },
 
     // layout
-    { MODKEY,                           XK_t,       setlayout,      {.v = &layouts[0]} },
+    // { MODKEY,                           XK_t,       setlayout,      {.v = &layouts[0]} },
     { MODKEY|ShiftMask,                 XK_f,       setlayout,      {.v = &layouts[1]} },
     { MODKEY,                           XK_m,       setlayout,      {.v = &layouts[2]} },
     { MODKEY|ControlMask,               XK_g,       setlayout,      {.v = &layouts[10]} },
@@ -237,15 +230,44 @@ static Key keys[] = {
     { MODKEY|ControlMask,               XK_period,  cyclelayout,    {.i = +1 } },
     { MODKEY,                           XK_0,       view,           {.ui = ~0 } },
     { MODKEY|ShiftMask,                 XK_0,       tag,            {.ui = ~0 } },
-    { MODKEY,                           XK_comma,   focusmon,       {.i = +1 } },
-    { MODKEY,                           XK_period,  focusmon,       {.i = -1 } },
-    { MODKEY|ShiftMask,                 XK_comma,    tagmon,         {.i = +1 } },
-    { MODKEY|ShiftMask,                 XK_period,   tagmon,         {.i = -1 } },
+    { MODKEY,                           XK_comma,   focusmon,       {.i = -1 } },
+    { MODKEY,                           XK_period,  focusmon,       {.i = +1 } },
+    { MODKEY|ShiftMask,                 XK_comma,    tagmon,         {.i = -1 } },
+    { MODKEY|ShiftMask,                 XK_period,   tagmon,         {.i = +1 } },
 
     // change border size
     /* { MODKEY|ShiftMask,                 XK_minus,   setborderpx,    {.i = -1 } }, */
     /* { MODKEY|ShiftMask,                 XK_p,       setborderpx,    {.i = +1 } }, */
     /* { MODKEY|ShiftMask,                 XK_w,       setborderpx,    {.i = default_border } }, */
+
+    { 0, XF86XK_AudioMute,		spawn,		SHCMD("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; kill -44 $(pidof dwmblocks)") },
+    { 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%+; kill -44 $(pidof dwmblocks)") },
+    { 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("wpctl set-volume @DEFAULT_AUDIO_SINK@ 3%-; kill -44 $(pidof dwmblocks)") },
+    /* { 0, XF86XK_AudioPrev,		spawn,		{.v = (const char*[]){ "mpc", "prev", NULL } } }, */
+    /* { 0, XF86XK_AudioNext,		spawn,		{.v = (const char*[]){ "mpc",  "next", NULL } } }, */
+    /* { 0, XF86XK_AudioPause,		spawn,		{.v = (const char*[]){ "mpc", "pause", NULL } } }, */
+    /* { 0, XF86XK_AudioPlay,		spawn,		{.v = (const char*[]){ "mpc", "play", NULL } } }, */
+    /* { 0, XF86XK_AudioStop,		spawn,		{.v = (const char*[]){ "mpc", "stop", NULL } } }, */
+    /* { 0, XF86XK_AudioRewind,	spawn,		{.v = (const char*[]){ "mpc", "seek", "-10", NULL } } }, */
+    /* { 0, XF86XK_AudioForward,	spawn,		{.v = (const char*[]){ "mpc", "seek", "+10", NULL } } }, */
+    /* { 0, XF86XK_AudioMedia,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "ncmpcpp", NULL } } }, */
+    /* { 0, XF86XK_AudioMicMute,	spawn,		SHCMD("pactl set-source-mute @DEFAULT_SOURCE@ toggle") }, */
+    /* /\* { 0, XF86XK_PowerOff,		spawn,		{.v = (const char*[]){ "sysact", NULL } } }, *\/ */
+    /* { 0, XF86XK_Calculator,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "bc", "-l", NULL } } }, */
+    /* { 0, XF86XK_Sleep,		spawn,		{.v = (const char*[]){ "sudo", "-A", "zzz", NULL } } }, */
+    /* { 0, XF86XK_WWW,		spawn,		{.v = (const char*[]){ BROWSER, NULL } } }, */
+    /* { 0, XF86XK_DOS,		spawn,		{.v = termcmd } }, */
+    /* { 0, XF86XK_ScreenSaver,	spawn,		SHCMD("slock & xset dpms force off; mpc pause; pauseallmpv") }, */
+    /* { 0, XF86XK_TaskPane,		spawn,		{.v = (const char*[]){ TERMINAL, "-e", "htop", NULL } } }, */
+    /* { 0, XF86XK_Mail,		spawn,		SHCMD(TERMINAL " -e neomutt ; pkill -RTMIN+12 dwmblocks") }, */
+    /* { 0, XF86XK_MyComputer,		spawn,		{.v = (const char*[]){ TERMINAL, "-e",  "lfub",  "/", NULL } } }, */
+    /* /\* { 0, XF86XK_Battery,		spawn,		SHCMD("") }, *\/ */
+    /* { 0, XF86XK_Launch1,		spawn,		{.v = (const char*[]){ "xset", "dpms", "force", "off", NULL } } }, */
+    /* { 0, XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") }, */
+    /* { 0, XF86XK_TouchpadOff,	spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=1", NULL } } }, */
+    /* { 0, XF86XK_TouchpadOn,		spawn,		{.v = (const char*[]){ "synclient", "TouchpadOff=0", NULL } } }, */
+    /* { 0, XF86XK_MonBrightnessUp,	spawn,		{.v = (const char*[]){ "xbacklight", "-inc", "15", NULL } } }, */
+    /* { 0, XF86XK_MonBrightnessDown,	spawn,		{.v = (const char*[]){ "xbacklight", "-dec", "15", NULL } } }, */
 
     // kill dwm
     //{ MODKEY|ControlMask,               XK_q,       spawn,        SHCMD("killall bar.sh dwm") },
@@ -258,8 +280,8 @@ static Key keys[] = {
     { MODKEY|ShiftMask,                 XK_r,       restart,           {0} },
 
     // hide & restore windows
-    { MODKEY,                           XK_e,       hidewin,        {0} },
-    { MODKEY|ShiftMask,                 XK_e,       restorewin,     {0} },
+    { MODKEY|ShiftMask,                           XK_e,       hidewin,        {0} },
+    { MODKEY                    ,                 XK_e,       restorewin,     {0} },
 
     // qwerty keyboard
 
