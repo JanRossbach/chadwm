@@ -88,7 +88,7 @@ static const char *telegram[] = {"telegram-desktop", "open", "telegram-desktop",
 static const char *mattermost[] = {"mattermost-desktop", NULL};
 static const char *rocketchat[] = {"rocketchat-desktop", NULL};
 static const char *pavucontrol[] = {"pavucontrol", NULL};
-static const char *browser[] = {"firefox", NULL};
+static const char *browser[] = {"/home/jan/dotfiles/scripts/browser.sh", NULL};
 static const char *spotify[] = {"spotify", NULL};
 static const char *emacs[] = {"emacs", NULL};
 static const char *obsidian[] = {"obsidian", NULL};
@@ -97,11 +97,10 @@ static const char *tradingview[] = {"tradingview", NULL};
 
 static const Launcher launchers[] = {
     /* command     name to display */
-    {obsidian, ""},    {emacs, ""},      {browser, ""},
-    {tradingview, ""}, {mattermost, ""}, {rocketchat, ""},
-    {telegram, ""},    {spotify, ""},    {bitwarden, ""},
+    {obsidian, ""},
+    {browser, ""},
     {pavucontrol, ""},
-};
+    {tradingview, ""}};
 
 static const int tagschemes[] = {SchemeTag1, SchemeTag2, SchemeTag3,
                                  SchemeTag4, SchemeTag5, SchemeTag6,
@@ -142,17 +141,17 @@ static const Layout layouts[] = {
     /* symbol     arrange function */
     {"[]=", tile}, /* first entry is default */
     {"[M]", monocle},
-    /* { "[@]",      spiral }, */
-    /* { "[\\]",     dwindle }, */
-    /* { "H[]",      deck }, */
-    /* { "TTT",      bstack }, */
-    /* { "===",      bstackhoriz }, */
-    /* { "HHH",      grid }, */
-    /* { "###",      nrowgrid }, */
-    /* { "---",      horizgrid }, */
-    /* { ":::",      gaplessgrid }, */
-    /* { "|M|",      centeredmaster }, */
-    /* { ">M>",      centeredfloatingmaster }, */
+    // {"[@]", spiral},
+    // {"[\\]", dwindle},
+    // {"H[]", deck},
+    {"TTT", bstack},
+    // {"===", bstackhoriz},
+    // {"HHH", grid},
+    // {"###", nrowgrid},
+    // {"---", horizgrid},
+    // {":::", gaplessgrid},
+    // {"|M|", centeredmaster},
+    // {">M>", centeredfloatingmaster},
     {"><>", NULL}, /* no layout function means floating behavior */
     {NULL, NULL},
 };
@@ -182,17 +181,19 @@ static Key keys[] = {
     /* {MODKEY,                            XK_u,       spawn, */
     /*     SHCMD("maim --select | xclip -selection clipboard -t image/png")}, */
 
-    {MODKEY, XK_Return, spawn, SHCMD("alacritty")},
-    {MODKEY, XK_w, spawn, SHCMD("firefox")},
+    {MODKEY, XK_Return, spawn, SHCMD("/home/jan/dotfiles/scripts/terminal.sh")},
+    {MODKEY, XK_w, spawn, SHCMD("/home/jan/dotfiles/scripts/browser.sh")},
     {MODKEY, XK_t, spawn, SHCMD("alacritty")},
     {MODKEY | ShiftMask, XK_t, spawn, SHCMD("thunar")},
     {MODKEY, XK_n, spawn, SHCMD("emacsclient -c")},
     {MODKEY, XK_v, spawn, SHCMD("neovide")},
     {MODKEY | ShiftMask, XK_n, spawn, SHCMD("emacs")},
-    {MODKEY, XK_p, spawn, SHCMD("bookmarkmenu")},
-    {MODKEY, XK_x, spawn, SHCMD("logoutmenu")},
+    {MODKEY, XK_p, spawn,
+     SHCMD("/home/jan/dotfiles/scripts/bravebookmarks.sh")},
+    {MODKEY, XK_x, spawn, SHCMD("/home/jan/dotfiles/scripts/logoutmenu.sh")},
     {MODKEY | ShiftMask, XK_d, spawn, SHCMD("rofi -show drun")},
-    {MODKEY | ShiftMask, XK_p, spawn, SHCMD("passmenu")},
+    {MODKEY | ShiftMask, XK_p, spawn,
+     SHCMD("/home/jan/dotfiles/scripts/passmenu.sh")},
     {MODKEY | ShiftMask, XK_s, spawn,
      SHCMD("sleep 0.2; scrot -s ~/screenshots/%Y-%m-%d-screenshot.png")},
     {MODKEY | ShiftMask, XK_Return, togglescratch, {.v = scratchpadcmd}},
